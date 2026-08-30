@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1366 768" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1366 768" preserveAspectRatio="none">
   <foreignObject width="100%" height="100%">
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
       <head>
@@ -7,159 +7,62 @@
         <title>Synnical OS</title>
         <style><![CDATA[
           html,
-          body {
+          body,
+          #root {
             margin: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #050505;
-            color: #f4f4f4;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #000;
           }
-          .shell {
+          iframe {
             position: fixed;
             inset: 0;
-            overflow: hidden;
-            background:
-              radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.10), transparent 25%),
-              radial-gradient(circle at 78% 8%, rgba(122, 189, 255, 0.16), transparent 24%),
-              linear-gradient(135deg, #050505 0%, #0b0d12 45%, #020202 100%);
-          }
-          .frame {
-            position: absolute;
-            inset: 0;
             width: 100%;
             height: 100%;
             border: 0;
-            background: #050505;
+            background: #000;
           }
-          .fallback {
-            position: absolute;
+          #blocked {
+            position: fixed;
             inset: 0;
-            display: grid;
+            display: none;
             place-items: center;
-            padding: 24px;
-            background:
-              radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.12), transparent 28%),
-              linear-gradient(180deg, rgba(10, 10, 10, 0.86), rgba(0, 0, 0, 0.96));
-            transition: opacity 0.25s ease, visibility 0.25s ease;
+            background: #000;
+            color: #fff;
+            font: 14px system-ui, sans-serif;
           }
-          .fallback[data-hidden="true"] {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-          }
-          .card {
-            width: min(520px, calc(100vw - 48px));
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 28px;
-            padding: 28px;
-            background: rgba(18, 18, 20, 0.76);
-            box-shadow: 0 28px 90px rgba(0, 0, 0, 0.48);
-            backdrop-filter: blur(22px) saturate(130%);
-          }
-          .mark {
-            width: 54px;
-            height: 54px;
-            border-radius: 18px;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(145deg, #121212, #24242a);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.08em;
-          }
-          h1 {
-            margin: 18px 0 8px;
-            font-size: clamp(30px, 5vw, 54px);
-            line-height: 0.95;
-            letter-spacing: -0.075em;
-          }
-          p {
-            margin: 0;
-            color: rgba(255, 255, 255, 0.68);
-            font-size: 14px;
-            line-height: 1.65;
-          }
-          .actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 22px;
-          }
-          a,
-          button {
-            border: 0;
-            border-radius: 999px;
-            padding: 11px 15px;
-            font: inherit;
-            font-size: 13px;
-            font-weight: 700;
-            text-decoration: none;
-            cursor: pointer;
-          }
-          a.primary {
-            background: #f5f5f5;
-            color: #050505;
-          }
-          button.secondary {
-            background: rgba(255, 255, 255, 0.08);
-            color: #f5f5f5;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-          }
-          .note {
-            margin-top: 18px;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.42);
+          #blocked a {
+            color: #fff;
           }
         ]]></style>
       </head>
       <body>
-        <div class="shell">
+        <div id="root">
           <iframe
             id="synnical-os-frame"
-            class="frame"
             title="Synnical OS"
             src="https://synnical.co.uk/?synnicalClient=svg"
             referrerpolicy="no-referrer-when-downgrade"
             allow="fullscreen; autoplay; clipboard-read; clipboard-write; gamepad; microphone; camera; display-capture"
             sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts">
           </iframe>
-          <div id="fallback" class="fallback">
-            <section class="card" aria-label="Synnical OS launcher">
-              <div class="mark">S</div>
-              <h1>Synnical OS</h1>
-              <p>This SVG launcher points at the live Synnical OS deployment. If your browser or the server frame policy blocks the embedded view, open it directly in a full tab.</p>
-              <div class="actions">
-                <a class="primary" href="https://synnical.co.uk/?synnicalClient=svg" target="_blank" rel="noopener noreferrer">Open Synnical OS</a>
-                <button class="secondary" id="retry" type="button">Retry embed</button>
-              </div>
-              <p class="note">Live origin: https://synnical.co.uk</p>
-            </section>
+          <div id="blocked">
+            <a href="https://synnical.co.uk/?synnicalClient=svg" target="_blank" rel="noopener noreferrer">Open Synnical OS</a>
           </div>
         </div>
         <script><![CDATA[
           (function () {
             var frame = document.getElementById("synnical-os-frame");
-            var fallback = document.getElementById("fallback");
-            var retry = document.getElementById("retry");
+            var blocked = document.getElementById("blocked");
             var loaded = false;
-            function showFallback() {
-              if (!loaded) fallback.setAttribute("data-hidden", "false");
-            }
             frame.addEventListener("load", function () {
               loaded = true;
-              fallback.setAttribute("data-hidden", "true");
+              blocked.style.display = "none";
             });
-            retry.addEventListener("click", function () {
-              loaded = false;
-              fallback.setAttribute("data-hidden", "false");
-              frame.src = "https://synnical.co.uk/?synnicalClient=svg&retry=" + Date.now();
-              setTimeout(showFallback, 2200);
-            });
-            setTimeout(showFallback, 2200);
+            setTimeout(function () {
+              if (!loaded) blocked.style.display = "grid";
+            }, 2500);
           })();
         ]]></script>
       </body>
