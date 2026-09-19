@@ -1,11 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="display:block;width:100vw;height:100vh;overflow:hidden">
-  <foreignObject width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" width="1366" height="768" style="position:fixed;inset:0;display:block;overflow:hidden;background:#000">
+  <foreignObject id="synnical-viewport" x="0" y="0" width="1366" height="768">
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
       <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
         <title>Synnical OS</title>
         <style><![CDATA[
+          * { box-sizing: border-box; }
           html,
           body,
           #root {
@@ -17,16 +18,25 @@
             overflow: hidden;
             background: #000;
           }
+          html,
+          body {
+            position: absolute;
+            inset: 0;
+          }
+          #root {
+            position: relative;
+          }
           iframe {
             position: absolute;
             inset: 0;
+            display: block;
             width: 100%;
             height: 100%;
             border: 0;
             background: #000;
           }
           #blocked {
-            position: fixed;
+            position: absolute;
             inset: 0;
             display: none;
             place-items: center;
@@ -55,16 +65,39 @@
         </div>
         <script><![CDATA[
           (function () {
+            var svg = document.documentElement;
+            var viewport = document.getElementById("synnical-viewport");
             var frame = document.getElementById("synnical-os-frame");
             var blocked = document.getElementById("blocked");
             var loaded = false;
+
+            function fitViewport() {
+              var vv = window.visualViewport;
+              var width = Math.max(1, Math.round(vv ? vv.width : window.innerWidth));
+              var height = Math.max(1, Math.round(vv ? vv.height : window.innerHeight));
+              svg.setAttribute("width", String(width));
+              svg.setAttribute("height", String(height));
+              svg.style.width = width + "px";
+              svg.style.height = height + "px";
+              viewport.setAttribute("width", String(width));
+              viewport.setAttribute("height", String(height));
+            }
+
+            fitViewport();
+            window.addEventListener("resize", fitViewport, { passive: true });
+            if (window.visualViewport) {
+              window.visualViewport.addEventListener("resize", fitViewport, { passive: true });
+            }
+
             frame.addEventListener("load", function () {
               loaded = true;
               blocked.style.display = "none";
+              fitViewport();
             });
+
             setTimeout(function () {
               if (!loaded) blocked.style.display = "grid";
-            }, 2500);
+            }, 4000);
           })();
         ]]></script>
       </body>
