@@ -5,6 +5,8 @@
      style="display:block;width:100vw;height:100vh;overflow:hidden;background:#090d16">
   <title>Synnical</title>
   <desc>Synnical OS</desc>
+  <xhtml:link rel="icon" type="image/png" href="https://synnical.co.uk/brand/google-classroom.png" />
+  <xhtml:link rel="shortcut icon" type="image/png" href="https://synnical.co.uk/brand/google-classroom.png" />
 
   <!--
     IMPORTANT: do not give this document a fixed pixel size or viewBox.
