@@ -1,106 +1,145 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1366" height="768" style="position:fixed;inset:0;display:block;overflow:hidden;background:#000">
-  <foreignObject id="synnical-viewport" x="0" y="0" width="1366" height="768">
-    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-        <title>Synnical OS</title>
-        <style><![CDATA[
-          * { box-sizing: border-box; }
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xhtml="http://www.w3.org/1999/xhtml"
+     width="100%"
+     height="100%"
+     style="display:block;width:100vw;height:100vh;overflow:hidden;background:#090d16">
+  <title>Synnical</title>
+  <desc>Synnical OS</desc>
+
+  <!--
+    IMPORTANT: do not give this document a fixed pixel size or viewBox.
+    Chrome treats a directly-opened SVG as an image document. A 1366x768
+    intrinsic canvas gets fitted to the browser content area and the entire
+    foreignObject/iframe is then resampled, which is exactly what made text,
+    icons and borders look soft compared with synnical.co.uk.
+
+    Percentage sizing keeps the SVG viewport, foreignObject and iframe on the
+    browser's native CSS-pixel grid at every window/fullscreen size.
+  -->
+  <foreignObject id="synnical-viewport" x="0" y="0" width="100%" height="100%">
+    <xhtml:html lang="en">
+      <xhtml:head>
+        <xhtml:meta charset="UTF-8" />
+        <xhtml:meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
+        <xhtml:title>Synnical</xhtml:title>
+        <xhtml:link rel="icon" type="image/png" href="https://synnical.co.uk/brand/google-classroom.png" />
+        <xhtml:link rel="shortcut icon" type="image/png" href="https://synnical.co.uk/brand/google-classroom.png" />
+        <xhtml:style><![CDATA[
+          * {
+            box-sizing: border-box;
+          }
+
           html,
           body,
-          #root {
+          #synnical-root {
             margin: 0;
+            padding: 0;
             width: 100%;
             height: 100%;
             min-width: 0;
             min-height: 0;
             overflow: hidden;
-            background: #000;
+            background: #090d16;
           }
+
           html,
           body {
             position: absolute;
             inset: 0;
           }
-          #root {
-            position: relative;
+
+          #synnical-root {
+            position: absolute;
+            inset: 0;
           }
-          iframe {
+
+          #synnical-os-frame {
             position: absolute;
             inset: 0;
             display: block;
             width: 100%;
             height: 100%;
+            min-width: 0;
+            min-height: 0;
+            margin: 0;
+            padding: 0;
             border: 0;
-            background: #000;
+            outline: 0;
+            background: #090d16;
+            transform: none;
+            filter: none;
           }
+
           #blocked {
             position: absolute;
             inset: 0;
             display: none;
             place-items: center;
-            background: #000;
-            color: #fff;
-            font: 14px system-ui, sans-serif;
+            padding: 24px;
+            background: #090d16;
+            color: #f4f7fb;
+            font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            text-align: center;
           }
+
           #blocked a {
-            color: #fff;
+            color: #f4f7fb;
           }
-        ]]></style>
-      </head>
-      <body>
-        <div id="root">
-          <iframe
+        ]]></xhtml:style>
+      </xhtml:head>
+
+      <xhtml:body>
+        <xhtml:div id="synnical-root">
+          <xhtml:iframe
             id="synnical-os-frame"
-            title="Synnical OS"
+            title="Synnical"
             src="https://synnical.co.uk/?synnicalClient=svg"
-            referrerpolicy="no-referrer-when-downgrade"
+            referrerpolicy="strict-origin-when-cross-origin"
             allow="fullscreen; autoplay; clipboard-read; clipboard-write; gamepad; microphone; camera; display-capture; storage-access-by-user-activation"
             sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts">
-          </iframe>
-          <div id="blocked">
-            <a href="https://synnical.co.uk/?synnicalClient=svg" target="_blank" rel="noopener noreferrer">Open Synnical OS</a>
-          </div>
-        </div>
-        <script><![CDATA[
+          </xhtml:iframe>
+
+          <xhtml:div id="blocked">
+            <xhtml:div>
+              <xhtml:p>Synnical could not be embedded in this tab.</xhtml:p>
+              <xhtml:a href="https://synnical.co.uk/?synnicalClient=svg" target="_blank" rel="noopener noreferrer">Open Synnical</xhtml:a>
+            </xhtml:div>
+          </xhtml:div>
+        </xhtml:div>
+
+        <xhtml:script><![CDATA[
           (function () {
-            var svg = document.documentElement;
-            var viewport = document.getElementById("synnical-viewport");
             var frame = document.getElementById("synnical-os-frame");
             var blocked = document.getElementById("blocked");
             var loaded = false;
 
-            function fitViewport() {
-              var vv = window.visualViewport;
-              var width = Math.max(1, Math.round(vv ? vv.width : window.innerWidth));
-              var height = Math.max(1, Math.round(vv ? vv.height : window.innerHeight));
-              svg.setAttribute("width", String(width));
-              svg.setAttribute("height", String(height));
-              svg.style.width = width + "px";
-              svg.style.height = height + "px";
-              viewport.setAttribute("width", String(width));
-              viewport.setAttribute("height", String(height));
+            function applyDocumentIdentity() {
+              try {
+                document.title = "Synnical";
+              } catch (_) {}
+
+              try {
+                var svgTitle = document.documentElement.querySelector(":scope > title");
+                if (svgTitle) svgTitle.textContent = "Synnical";
+              } catch (_) {}
             }
 
-            fitViewport();
-            window.addEventListener("resize", fitViewport, { passive: true });
-            if (window.visualViewport) {
-              window.visualViewport.addEventListener("resize", fitViewport, { passive: true });
-            }
+            applyDocumentIdentity();
+            window.addEventListener("pageshow", applyDocumentIdentity);
+            window.addEventListener("focus", applyDocumentIdentity);
 
             frame.addEventListener("load", function () {
               loaded = true;
               blocked.style.display = "none";
-              fitViewport();
+              applyDocumentIdentity();
             });
 
             setTimeout(function () {
               if (!loaded) blocked.style.display = "grid";
-            }, 4000);
+            }, 6000);
           })();
-        ]]></script>
-      </body>
-    </html>
+        ]]></xhtml:script>
+      </xhtml:body>
+    </xhtml:html>
   </foreignObject>
 </svg>
