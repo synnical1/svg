@@ -5,8 +5,8 @@
      style="display:block;width:100vw;height:100vh;overflow:hidden;background:#090d16">
   <title>Synnical</title>
   <desc>Synnical OS</desc>
-  <xhtml:link rel="icon" type="image/png" href="https://synnical.co.uk/brand/google-classroom.png" />
-  <xhtml:link rel="shortcut icon" type="image/png" href="https://synnical.co.uk/brand/google-classroom.png" />
+  <xhtml:link rel="icon" type="image/png" href="./favicon.svg" />
+  <xhtml:link rel="shortcut icon" type="image/png" href="./favicon.svg" />
 
   <!--
     IMPORTANT: do not give this document a fixed pixel size or viewBox.
@@ -24,8 +24,8 @@
         <xhtml:meta charset="UTF-8" />
         <xhtml:meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
         <xhtml:title>Synnical</xhtml:title>
-        <xhtml:link rel="icon" type="image/png" href="https://synnical.co.uk/brand/google-classroom.png" />
-        <xhtml:link rel="shortcut icon" type="image/png" href="https://synnical.co.uk/brand/google-classroom.png" />
+        <xhtml:link rel="icon" type="image/png" href="./favicon.svg" />
+        <xhtml:link rel="shortcut icon" type="image/png" href="./favicon.svg" />
         <xhtml:style><![CDATA[
           * {
             box-sizing: border-box;
